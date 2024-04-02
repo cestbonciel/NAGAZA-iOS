@@ -10,7 +10,7 @@ import UIKit
 final class RecentSearchTableViewCell: NagazaTableViewCell {
     static let identifier = RecentSearchTableViewCell.description()
 
-    lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ngaSubTitle1R
         label.textAlignment = .center
@@ -18,7 +18,7 @@ final class RecentSearchTableViewCell: NagazaTableViewCell {
         return label
     }()
     
-    lazy var removeButton: UIButton = {
+    private let removeButton: UIButton = {
         let button = UIButton()
         button.setImage(NagazaAsset.Images.icX.image, for: .normal)
         return button

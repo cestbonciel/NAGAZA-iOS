@@ -14,7 +14,7 @@ final class MapSearchViewController: NagazaBaseViewController {
     private var viewModel: MapSearchViewModel!
     private var dataSource: DataSource!
     
-    private lazy var tableView: NagazaBaseTableView = {
+    private let tableView: NagazaBaseTableView = {
         let tableView = NagazaBaseTableView(
             frame: .zero,
             style: .plain
@@ -27,7 +27,7 @@ final class MapSearchViewController: NagazaBaseViewController {
         return tableView
     }()
     
-    private lazy var searchTextField: UISearchTextField = {
+    private let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
         searchTextField.leftView = nil
         searchTextField.placeholder = "검색어를 입력하세요"
@@ -35,7 +35,7 @@ final class MapSearchViewController: NagazaBaseViewController {
         return searchTextField
     }()
     
-    private lazy var searchButtonImageView: UIImageView = {
+    private let searchButtonImageView: UIImageView = {
         let imageView = UIImageView(image:  NagazaAsset.Images.imgSearch.image)
         return imageView
     }()

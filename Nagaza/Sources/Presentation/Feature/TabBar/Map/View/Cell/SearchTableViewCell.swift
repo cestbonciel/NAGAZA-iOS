@@ -10,7 +10,7 @@ import UIKit
 final class SearchTableViewCell: NagazaTableViewCell {
     static let identifier = SearchTableViewCell.description()
 
-    lazy var labelStackView: UIStackView = {
+    private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 6
@@ -18,7 +18,7 @@ final class SearchTableViewCell: NagazaTableViewCell {
         return stackView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ngaSubTitle1R
         label.textAlignment = .center
@@ -26,7 +26,7 @@ final class SearchTableViewCell: NagazaTableViewCell {
         return label
     }()
     
-    lazy var subtitleLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ngaP1R
         label.textAlignment = .center

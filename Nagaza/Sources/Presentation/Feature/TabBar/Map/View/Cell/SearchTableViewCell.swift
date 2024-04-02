@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchTableViewCell: NagazaTableViewCell {
+final class SearchTableViewCell: NagazaBaseTableViewCell {
     static let identifier = SearchTableViewCell.description()
 
     private let labelStackView: UIStackView = {

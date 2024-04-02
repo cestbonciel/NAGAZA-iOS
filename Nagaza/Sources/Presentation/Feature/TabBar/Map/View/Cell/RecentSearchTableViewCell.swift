@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RecentSearchTableViewCell: NagazaTableViewCell {
+final class RecentSearchTableViewCell: NagazaBaseTableViewCell {
     static let identifier = RecentSearchTableViewCell.description()
 
     private let titleLabel: UILabel = {

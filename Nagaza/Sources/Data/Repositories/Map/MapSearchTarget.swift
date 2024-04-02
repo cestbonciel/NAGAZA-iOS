@@ -19,7 +19,7 @@ extension MapSearchTarget: TargetType {
     }
     
     var headers: [String: String]? {
-        if let apiKey = Keychain.shared.get(.apiKey) {
+        if let apiKey = Keychain.shared.get(.kakaoApiKey) {
             return [
                 "Authorization": "KakaoAK \(apiKey)",
                 "Content-Type": "application/json",

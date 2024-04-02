@@ -6,13 +6,18 @@
 //
 
 import UIKit
+
 import FirebaseCore
+import NMapsMap
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 //        FirebaseApp.configure()
+        
+        NMFAuthManager.shared().clientId = Keychain.shared.get(.naverClientID)
+
         return true
     }
     

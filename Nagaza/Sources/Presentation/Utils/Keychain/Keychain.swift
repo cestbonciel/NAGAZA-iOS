@@ -8,18 +8,19 @@
 import Foundation
 
 final class Keychain {
-    
     static let shared = Keychain()
     
     private let lock: NSLock = NSLock() // 멀티 스레드 환경에서 객체의 멤버에 동시 접근 방지
     private var lastResultCode: OSStatus = noErr
     
     private init() {
-        setApiKey()
+        setAPIKey()
     }
     
     enum TokenType: String {
-        case apiKey
+        case kakaoApiKey
+        case naverClientID
+        case naverClientSecret
         case accessToken
         case refreshToken
     }
@@ -116,10 +117,20 @@ final class Keychain {
         return lastResultCode == noErr
     }
     
-    private func setApiKey() {
+    private func setAPIKey() {
         set(
-            "eb31c26138364bf0d6d5fa78138e693d",
-            forKey: .apiKey
+            Storage.shared.kakaoApiKey,
+            forKey: .kakaoApiKey
+        )
+        
+        set(
+            Storage.shared.clientID,
+            forKey: .naverClientID
+        )
+        
+        set(
+            Storage.shared.clientSecret,
+            forKey: .naverClientSecret
         )
     }
 }

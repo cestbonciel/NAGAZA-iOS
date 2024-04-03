@@ -5,19 +5,22 @@
 //  Created by SeungMin on 2023/11/01.
 //
 
-import Security
 import Foundation
 
 final class Keychain {
-    
     static let shared = Keychain()
     
     private let lock: NSLock = NSLock() // 멀티 스레드 환경에서 객체의 멤버에 동시 접근 방지
     private var lastResultCode: OSStatus = noErr
     
-    private init() { }
+    private init() {
+        setAPIKey()
+    }
     
     enum TokenType: String {
+        case kakaoApiKey
+        case naverClientID
+        case naverClientSecret
         case accessToken
         case refreshToken
     }
@@ -112,6 +115,23 @@ final class Keychain {
         
         lastResultCode = SecItemDelete(keyChainQuery)
         return lastResultCode == noErr
+    }
+    
+    private func setAPIKey() {
+        set(
+            Storage.shared.kakaoApiKey,
+            forKey: .kakaoApiKey
+        )
+        
+        set(
+            Storage.shared.clientID,
+            forKey: .naverClientID
+        )
+        
+        set(
+            Storage.shared.clientSecret,
+            forKey: .naverClientSecret
+        )
     }
 }
 

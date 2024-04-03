@@ -1,14 +1,16 @@
 //
-//  SearchCollectionViewCell.swift
+//  RecentSearchTableViewCell.swift
 //  Nagaza
 //
-//  Created by SeungMin on 3/13/24.
+//  Created by SeungMin on 3/27/24.
 //
 
 import UIKit
 
-final class SearchCollectionViewCell: NagazaCollectionViewCell {
-    lazy var textLabel: UILabel = {
+final class RecentSearchTableViewCell: NagazaBaseTableViewCell {
+    static let identifier = RecentSearchTableViewCell.description()
+
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.ngaSubTitle1R
         label.textAlignment = .center
@@ -16,17 +18,17 @@ final class SearchCollectionViewCell: NagazaCollectionViewCell {
         return label
     }()
     
-    lazy var removeButton: UIButton = {
+    private let removeButton: UIButton = {
         let button = UIButton()
         button.setImage(NagazaAsset.Images.icX.image, for: .normal)
         return button
     }()
     
     override func makeUI() {
-        contentView.addSubview(textLabel)
+        contentView.addSubview(titleLabel)
         contentView.addSubview(removeButton)
         
-        textLabel.snp.makeConstraints {
+        titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(35)
             $0.centerY.equalToSuperview()
         }
@@ -38,6 +40,7 @@ final class SearchCollectionViewCell: NagazaCollectionViewCell {
     }
     
     func bind(item: RecentKeyword) {
-        textLabel.text = item.keyword
+        titleLabel.text = item.keyword
     }
 }
+

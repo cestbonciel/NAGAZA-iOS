@@ -1,0 +1,8 @@
+platform :ios, '15.0'
+# use_frameworks!
+
+target 'Nagaza' do
+
+  pod 'NMapsMap', '~> 3.18.0'
+
+end

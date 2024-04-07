@@ -6,22 +6,23 @@
 //
 
 import UIKit
-import MapKit
 
 import RxSwift
 import RxCocoa
 import RxGesture
+import NMapsMap
+
 
 final class MapViewController: NagazaBaseViewController {
-    private var viewModel: MapViewModel!
+    var viewModel: MapViewModel!
     
-    lazy var mapView: MKMapView = {
-        let mapView = MKMapView()
-        mapView.showsUserLocation = true
+    private let mapView: NMFMapView = {
+        let mapView = NMFMapView()
+        mapView.positionMode = .direction
         return mapView
     }()
     
-    lazy var mapSearchView = MapSearchView()
+    private let mapSearchView = MapSearchView()
     
     static func create(with viewModel: MapViewModel) -> MapViewController {
         let vc = MapViewController()
@@ -67,12 +68,26 @@ final class MapViewController: NagazaBaseViewController {
         output.mapSearch
             .drive()
             .disposed(by: disposeBag)
+        
+        output.searchItem
+            .drive(self.rx.searchItem)
+            .disposed(by: disposeBag)
+    }
+    
+    func updateTextLabel(text: String) {
+        self.mapSearchView.textLabel.text = text
+        self.mapSearchView.textLabel.textColor = NagazaAsset.Colors.black.color
+    }
+    
+    func updateLocation(with coordinates: CLLocationCoordinate2D) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinates.latitude, lng: coordinates.longitude))
+        self.mapView.moveCamera(cameraUpdate)
     }
 }
 
 extension MapViewController {
     private func setupDelegate() {
-        mapView.delegate = self
+        //        mapView.delegate = self
     }
     
     private func locationManagerDidChangeAuthorization() {
@@ -101,26 +116,19 @@ extension MapViewController {
     }
 }
 
-extension MapViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        let region = MKCoordinateRegion(
-            center: userLocation.coordinate,
-            latitudinalMeters: 500,
-            longitudinalMeters: 500
-        )
-        mapView.region = region
+extension Reactive where Base: MapViewController {
+    var searchItem: Binder<Place?> {
+        return Binder(self.base) { base, item in
+            guard let item = item,
+                  let latitude = Double(item.y),
+                  let longitude = Double(item.x) else { return }
+            base.updateTextLabel(text: item.placeName)
+            base.updateLocation(
+                with: CLLocationCoordinate2D(
+                    latitude: latitude,
+                    longitude: longitude
+                )
+            )
+        }
     }
 }
-
-//#if DEBUG
-//import SwiftUI
-//
-//struct MapViewControllerPreview: PreviewProvider {
-//    static var previews: some View {
-//        let actions = MapViewModelActions()
-//        let viewModel = MapViewModel(actions: actions)
-//        let viewController = MapViewController.create(with: viewModel)
-//        return viewController.toPreView()
-//    }
-//}
-//#endif

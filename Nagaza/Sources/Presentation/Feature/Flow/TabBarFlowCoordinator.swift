@@ -7,15 +7,7 @@
 
 import UIKit
 
-final class TabBarFlowCoordinator: Coordinator {
-    var type: CoordinatorType { .tab }
-    
-    var childCoordinators: [Coordinator] = []
-    
-    var navigationController: UINavigationController
-    
-    weak var finishDelegate: CoordinatorFinishDelegate?
-    weak var tabBarDelegate: TabBarDelegate? = nil
+final class TabBarFlowCoordinator: BaseCoordinator {
     
     private var tabBarVC: NagazaTabBarController!
     
@@ -23,16 +15,11 @@ final class TabBarFlowCoordinator: Coordinator {
         navigationController: UINavigationController,
         tabBarController: NagazaTabBarController
     ) {
-        print("TabBar Flow Init")
-        self.navigationController = navigationController
+        super.init(navigationController: navigationController)
         self.tabBarVC = tabBarController
     }
     
-    deinit {
-        print("TabBar FlowDeinit")
-    }
-    
-    func start() {
+    override func start() {
         tabBarVC.selectedIndex = 0
         
         navigationController.pushViewController(tabBarVC, animated: false)
@@ -41,27 +28,10 @@ final class TabBarFlowCoordinator: Coordinator {
     
     func setupTabs(with coordinators: [Coordinator]) {
         
-        var tabs: [TabBarType] = []
+        let tabs: [TabBarType] = TabBarType.allCases
         
         for coordinator in coordinators {
-            switch coordinator.type {
-            case .home:
-                tabs.append(.home)
-            case .map:
-                tabs.append(.map)
-            case .review:
-                tabs.append(.review)
-            case .myPage:
-                tabs.append(.myPage)
-            default:
-                continue
-            }
-            
-            coordinator.finishDelegate = self
-            coordinator.tabBarDelegate = tabBarVC
-            
             coordinator.start()
-
             childCoordinators.append(coordinator)
         }
         
@@ -74,6 +44,7 @@ final class TabBarFlowCoordinator: Coordinator {
 // MARK: Logout 버튼 클릭 시 tabBar Flow Coordinator도 같이 삭제
 extension TabBarFlowCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: Coordinator) {
-        self.finish()
+        navigationController.popViewController(animated: true)
+        removeChildCoordinator(childCoordinator)
     }
 }

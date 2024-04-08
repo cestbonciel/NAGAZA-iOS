@@ -11,15 +11,7 @@ protocol MyPageFlowCoordinatorDependencies {
     func makeMyPageViewController(actions: MyPageViewModelActions) -> MyPageViewController
 }
 
-final class MyPageFlowCoordinator: Coordinator {
-    var type: CoordinatorType { .myPage }
-    
-    var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController
-    
-    weak var finishDelegate: CoordinatorFinishDelegate?
-    weak var tabBarDelegate: TabBarDelegate?
-    
+final class MyPageFlowCoordinator: BaseCoordinator {
     private let dependencies: MyPageFlowCoordinatorDependencies!
     
     private weak var myPageVC: MyPageViewController?
@@ -28,11 +20,11 @@ final class MyPageFlowCoordinator: Coordinator {
         navigationController: UINavigationController,
         dependencies: MyPageFlowCoordinatorDependencies
     ) {
-        self.navigationController = navigationController
         self.dependencies = dependencies
+        super.init(navigationController: navigationController)
     }
     
-    func start() {
+    override func start() {
         let actions = MyPageViewModelActions(moveAppSetting: moveAppSetting)
         let vc = dependencies.makeMyPageViewController(actions: actions)
         

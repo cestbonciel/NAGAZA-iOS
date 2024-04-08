@@ -12,32 +12,20 @@ protocol MapFlowCoordinaterDependencies {
     func makeMapSearchViewController(actions: MapSearchViewModelActions) -> MapSearchViewController
 }
 
-final class MapFlowCoordinator: Coordinator {
-    var type: CoordinatorType { .map }
-    
-    var childCoordinators: [Coordinator] = []
-    
-    var navigationController: UINavigationController
-    
-    weak var finishDelegate: CoordinatorFinishDelegate?
-    weak var tabBarDelegate: TabBarDelegate?
-    
+final class MapFlowCoordinator: BaseCoordinator {
     private let dependencies: MapFlowCoordinaterDependencies!
     
     private weak var mapVC: MapViewController?
     
     init(
         navigationController: UINavigationController,
-        dependencies: MapFlowCoordinaterDependencies) {
-            self.navigationController = navigationController
-            self.dependencies = dependencies
-        }
-    
-    deinit {
-        print("Map Flow Deinit")
+        dependencies: MapFlowCoordinaterDependencies
+    ) {
+        self.dependencies = dependencies
+        super.init(navigationController: navigationController)
     }
     
-    func start() {
+    override func start() {
         let actions = MapViewModelActions(toMapSearch: toMapSearch)
         let vc = dependencies.makeMapViewController(actions: actions)
         

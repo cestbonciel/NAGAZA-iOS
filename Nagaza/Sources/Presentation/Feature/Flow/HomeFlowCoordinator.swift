@@ -16,14 +16,8 @@ protocol HomeFlowCoordinaterDependencies {
     ) -> RegionSettingViewController
 }
 
-final class HomeFlowCoordinator: Coordinator {
-    var type: CoordinatorType { .home }
+final class HomeFlowCoordinator: BaseCoordinator {
     
-    var childCoordinators: [Coordinator] = []
-    
-    var navigationController: UINavigationController
-    
-    weak var finishDelegate: CoordinatorFinishDelegate?
     weak var tabBarDelegate: TabBarDelegate?
     
     private let dependencies: HomeFlowCoordinaterDependencies!
@@ -34,11 +28,11 @@ final class HomeFlowCoordinator: Coordinator {
         navigationController: UINavigationController,
         dependencies: HomeFlowCoordinaterDependencies
     ) {
-        self.navigationController = navigationController
         self.dependencies = dependencies
+        super.init(navigationController: navigationController)
     }
     
-    func start() {
+    override func start() {
         let actions = HomeViewModelActions(
             showRegionSetting: showRegionSetting(with: didSelect:),
             logoutTest: logoutTest

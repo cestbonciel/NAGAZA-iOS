@@ -7,31 +7,18 @@
 
 import UIKit
 
-final class MyPageAppSettingCoordinator: Coordinator {
-    var type: CoordinatorType = .myPageAppSetting
-    
-    var tabBarDelegate: TabBarDelegate?
-    
-    var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController
-    var viewController: UIViewController = UIViewController()
-    
-    weak var finishDelegate: CoordinatorFinishDelegate?
-    private let dependencies: MyPageFlowCoordinatorDependencies!
+final class MyPageAppSettingCoordinator: BaseCoordinator {
+    private var dependencies: MyPageFlowCoordinatorDependencies!
     
     init(
         navigationController: UINavigationController,
         dependencies: MyPageFlowCoordinatorDependencies
     ) {
-        self.navigationController = navigationController
+        super.init(navigationController: navigationController)
         self.dependencies = dependencies
     }
     
-    func start() {
+    override func start() {
         viewController = MyPageAppSettingViewController()
-    }
-    
-    private func showTabBar() {
-        self.finish()
     }
 }

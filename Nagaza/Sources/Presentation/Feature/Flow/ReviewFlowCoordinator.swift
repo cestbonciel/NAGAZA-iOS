@@ -14,8 +14,6 @@ protocol ReviewFlowCoordinatorDependencies {
 final class ReviewFlowCoordinator: BaseCoordinator {
     private let dependencies: ReviewFlowCoordinatorDependencies!
     
-    private weak var reviewVC: ReviewViewController?
-    
     init(
         navigationController: UINavigationController,
         dependencies: ReviewFlowCoordinatorDependencies
@@ -27,10 +25,9 @@ final class ReviewFlowCoordinator: BaseCoordinator {
     override func start() {
         let actions = ReviewViewModelActions()
         let vc = dependencies.makeReviewViewController(actions: actions)
+        viewController = vc
         
         navigationController.setNavigationBarHidden(true, animated: false)
         navigationController.pushViewController(vc, animated: false)
-        
-        reviewVC = vc
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class BaseCoordinator: Coordinator {
+    
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     var viewController: UIViewController = UIViewController()
@@ -33,6 +34,5 @@ class BaseCoordinator: Coordinator {
         }
     }
     
-    func start() { }
-    func finish() { }
+    func start() {}
 }

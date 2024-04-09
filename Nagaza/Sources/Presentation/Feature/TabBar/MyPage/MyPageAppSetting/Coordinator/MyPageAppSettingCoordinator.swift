@@ -19,6 +19,17 @@ final class MyPageAppSettingCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        viewController = MyPageAppSettingViewController()
+        let actions = MyPageAppSettingViewModelActions(finishMyPageAppSettingVC: finishView)
+        let vc = dependencies.makeMyPageAppSettingViewController(actions: actions)
+        viewController = vc
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+extension MyPageAppSettingCoordinator {
+    func finishView() {
+        navigationController.popViewController(animated: true)
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }

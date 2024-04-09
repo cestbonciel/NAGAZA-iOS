@@ -90,4 +90,13 @@ extension HomeSceneDIContainer: HomeFlowCoordinaterDependencies {
             )
         )
     }
+    
+    func makeRegionSettingCoordinator(
+        navigationController: UINavigationController
+    ) -> RegionSettingCoordinator {
+        RegionSettingCoordinator(
+            navigationController: navigationController,
+            dependencies: self
+        )
+    }
 }

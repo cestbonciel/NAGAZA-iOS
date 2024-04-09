@@ -29,9 +29,11 @@ final class LoginFlowCoordinator: BaseCoordinator {
         
         navigationController.setNavigationBarHidden(true, animated: false)
         navigationController.pushViewController(vc, animated: false)
+        
+        viewController = vc
     }
     
     private func showTabBar() {
-        self.finish()
+        // TODO: TabBarFlowCoordinator 띄우기
     }
 }

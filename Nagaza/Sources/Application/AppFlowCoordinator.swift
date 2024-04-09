@@ -35,10 +35,8 @@ final class AppFlowCoordinator: BaseCoordinator {
 
 extension AppFlowCoordinator {
     func showTabBar() {
-        let tabBarController = NagazaTabBarController()
         let tabBarFlowCoordinator = TabBarFlowCoordinator(
-            navigationController: navigationController,
-            tabBarController: tabBarController
+            navigationController: navigationController
         )
         
         let HomeSceneDIContaier = appDIContainer.makeHomeSceneDIContainer()
@@ -60,16 +58,13 @@ extension AppFlowCoordinator {
         let myPageFlow = myPageSceneDIContaier.makeMyPageFlowCoordinator(
             navigationController: UINavigationController()
         )
-      
-        tabBarFlowCoordinator.setupTabs(with: [
+        
+        tabBarFlowCoordinator.start(with: [
             HomeFlow,
             mapFlow,
             reviewFlow,
             myPageFlow
         ])
-        
-        tabBarFlowCoordinator.finishDelegate = self
-        tabBarFlowCoordinator.start()
         
         childCoordinators.append(tabBarFlowCoordinator)
     }
@@ -80,7 +75,6 @@ extension AppFlowCoordinator {
             navigationController: navigationController
         )
         
-        loginFlow.finishDelegate = self
         loginFlow.start()
         
         childCoordinators.append(loginFlow)

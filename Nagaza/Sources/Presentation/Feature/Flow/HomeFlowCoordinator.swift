@@ -14,15 +14,12 @@ protocol HomeFlowCoordinaterDependencies {
         with subRegion: String,
         didSelect: @escaping RegionSettingViewModelDidSelectAction
     ) -> RegionSettingViewController
+    func makeRegionSettingCoordinator(navigationController: UINavigationController) -> RegionSettingCoordinator
 }
 
 final class HomeFlowCoordinator: BaseCoordinator {
     
-    weak var tabBarDelegate: TabBarDelegate?
-    
     private let dependencies: HomeFlowCoordinaterDependencies!
-    
-    private weak var homeVC: HomeViewController?
     
     init(
         navigationController: UINavigationController,
@@ -39,23 +36,25 @@ final class HomeFlowCoordinator: BaseCoordinator {
         )
         
         let vc = dependencies.makeHomeViewController(actions: actions)
+        viewController = vc
         
         navigationController.setNavigationBarHidden(false, animated: false)
         navigationController.pushViewController(vc, animated: false)
-        
-        homeVC = vc
     }
     
     private func showRegionSetting(
         with subRegion: String,
         didSelect: @escaping RegionSettingViewModelDidSelectAction
     ) {
-        let vc = dependencies.makeRegionSettingViewController(with: subRegion, didSelect: didSelect)
+        let regionSettingCoordinator = dependencies.makeRegionSettingCoordinator(
+            navigationController: navigationController
+        )
+        regionSettingCoordinator.start(with: subRegion, didSelect: didSelect)
         
-        navigationController.pushViewController(vc, animated: false)
+        childCoordinators.append(regionSettingCoordinator)
     }
     
     private func logoutTest() {
-        self.finish()
+        // TODO: 추후 작성
     }
 }

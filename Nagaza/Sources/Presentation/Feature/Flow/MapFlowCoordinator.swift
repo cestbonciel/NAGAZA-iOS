@@ -15,8 +15,6 @@ protocol MapFlowCoordinaterDependencies {
 final class MapFlowCoordinator: BaseCoordinator {
     private let dependencies: MapFlowCoordinaterDependencies!
     
-    private weak var mapVC: MapViewController?
-    
     init(
         navigationController: UINavigationController,
         dependencies: MapFlowCoordinaterDependencies
@@ -32,10 +30,10 @@ final class MapFlowCoordinator: BaseCoordinator {
         navigationController.setNavigationBarHidden(false, animated: false)
         navigationController = UINavigationController(rootViewController: vc)
         
-        mapVC = vc
+        viewController = vc
     }
     
-    func toMapSearch() {
+    private func toMapSearch() {
         let actions = MapSearchViewModelActions()
         let vc = dependencies.makeMapSearchViewController(actions: actions)
         

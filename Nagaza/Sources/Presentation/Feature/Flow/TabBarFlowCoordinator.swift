@@ -9,25 +9,24 @@ import UIKit
 
 final class TabBarFlowCoordinator: BaseCoordinator {
     
-    private var tabBarVC: NagazaTabBarController!
-    
-    init(
-        navigationController: UINavigationController,
-        tabBarController: NagazaTabBarController
+    override init(
+        navigationController: UINavigationController
     ) {
         super.init(navigationController: navigationController)
-        self.tabBarVC = tabBarController
     }
     
-    override func start() {
-        tabBarVC.selectedIndex = 0
+    func start(with coordinators: [Coordinator]) {
         
-        navigationController.pushViewController(tabBarVC, animated: false)
+        let tabBarVC = NagazaTabBarController()
+        viewController = tabBarVC
+        
+        setupTabs(with: coordinators)
+        
         navigationController.setNavigationBarHidden(true, animated: false)
+        navigationController.pushViewController(tabBarVC, animated: false)
     }
     
     func setupTabs(with coordinators: [Coordinator]) {
-        
         let tabs: [TabBarType] = TabBarType.allCases
         
         for coordinator in coordinators {
@@ -36,8 +35,11 @@ final class TabBarFlowCoordinator: BaseCoordinator {
         }
         
         let viewControllers = coordinators.map { $0.navigationController }
-
-        tabBarVC.setViewControllers(viewControllers, with: tabs)
+        
+        if let tabBarVC = viewController as? NagazaTabBarController {
+            tabBarVC.setViewControllers(viewControllers, with: tabs)
+            tabBarVC.selectedIndex = 0
+        }
     }
 }
 

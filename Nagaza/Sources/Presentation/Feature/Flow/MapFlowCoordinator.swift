@@ -24,7 +24,7 @@ final class MapFlowCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        let actions = MapViewModelActions(toMapSearch: toMapSearch)
+        let actions = MapViewModelActions(toMapSearchVC: toMapSearchVC)
         let vc = dependencies.makeMapViewController(actions: actions)
         
         navigationController.setNavigationBarHidden(false, animated: false)

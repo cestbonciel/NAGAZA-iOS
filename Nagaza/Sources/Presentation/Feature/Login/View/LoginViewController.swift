@@ -7,9 +7,11 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 
-final class LoginViewController: UIViewController, Alertable {
+final class LoginViewController: NagazaViewController, Alertable {
     
     private var viewModel: LoginViewModel!
     
@@ -18,21 +20,30 @@ final class LoginViewController: UIViewController, Alertable {
         
         btn.setTitle("로그인", for: .normal)
         btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(
-            self,
-            action: #selector(loginTapped(_:)),
-            for: .touchUpInside
-        )
         
         return btn
     }()
     
-    static func create(with viewModel: LoginViewModel) -> LoginViewController {
-        let vc = LoginViewController()
-        vc.viewModel = viewModel
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
         
-        return vc
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setCoordinatorActions(with actions: CoordinatorActions) {
+        viewModel.setCoordinatorActions(with: actions)
+    }
+    
+//    static func create(with viewModel: LoginViewModel) -> LoginViewController {
+//        let vc = LoginViewController()
+//        vc.viewModel = viewModel
+//        
+//        return vc
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +71,18 @@ final class LoginViewController: UIViewController, Alertable {
         ])
     }
     
-    @objc private func loginTapped(_ sender: UIButton) {
-        viewModel.didTappedLogin()
+    override func bindViewModel() {
+        let didTappedLogin = loginButton.rx.tap
+            .map { _ in }
+            .asDriverOnErrorJustEmpty()
+        
+        let input = LoginViewModel.Input(didTappedLogin: didTappedLogin)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.didTappedLogin
+            .drive()
+            .disposed(by: disposeBag)
     }
 }
 

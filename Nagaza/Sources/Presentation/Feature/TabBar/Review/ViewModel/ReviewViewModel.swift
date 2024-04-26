@@ -7,36 +7,29 @@
 
 import Foundation
 
-/// 화면 전환 등 액션, coordinator에서 직접 주입
-struct ReviewViewModelActions {
+protocol ReviewCoordinatorActions: CoordinatorActions {
     
 }
 
-protocol ReviewViewModelInput {
+final class ReviewViewModel: NagazaViewModel {
+    private weak var actions: ReviewCoordinatorActions?
     
-}
-
-protocol ReviewViewModelOutput {
+    struct Input {
+        
+    }
     
-}
-
-typealias ReviewViewModelProtocol = ReviewViewModelInput & ReviewViewModelOutput
-
-final class ReviewViewModel: ReviewViewModelProtocol {
-    
-    private let actions: ReviewViewModelActions!
-    
-    // MARK: Output
+    struct Output {
+        
+    }
     
     // 의존성 주입
-    init(
-        actions: ReviewViewModelActions
-    ) {
-        self.actions = actions
-    }
-}
-
-// MARK: Input
-extension ReviewViewModel {
+    init() { }
     
+    func setCoordinatorActions(with actions: CoordinatorActions) {
+        self.actions = actions as? ReviewCoordinatorActions
+    }
+    
+    func transform(input: Input) -> Output {
+        return Output()
+    }
 }

@@ -8,31 +8,32 @@
 import UIKit
 
 class BaseCoordinator: Coordinator {
-    
     var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController
-    var viewController: UIViewController = UIViewController()
+    var navigationController: UINavigationController?
     weak var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController) {
+    init() { }
+    
+    /// Basic Start type
+    func start(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        print("----- start coordinator: \(self) -----")
     }
     
-    func addChildCooridnator(_ coordinator: Coordinator) {
-        for element in childCoordinators {
-            if element === coordinator { return }
-        }
-        childCoordinators.append(coordinator)
+    /// Login start type
+    func start(
+        with window: UIWindow,
+        navigationController: UINavigationController
+    ) {
+        self.navigationController = navigationController
+        print("----- start coordinator: \(self) -----")
     }
     
-    func removeChildCoordinator(_ coordinator: Coordinator) {
-        for (index, element) in childCoordinators.enumerated() {
-            if element === coordinator {
-                childCoordinators.remove(at: index)
-                break
-            }
-        }
+    /// TabBarVC start type
+    func start(
+        withCoordinators coordinators: [Coordinator],
+        with window: UIWindow
+    ) {
+        print("----- start coordinator: \(self) -----")
     }
-    
-    func start() {}
 }

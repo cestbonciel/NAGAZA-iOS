@@ -10,15 +10,9 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class MyPageViewController: NagazaBaseViewController {
+final class MyPageViewController: NagazaViewController {
     
     private var viewModel: MyPageViewModel!
-    
-    static func create(with viewModel: MyPageViewModel) -> MyPageViewController {
-        let vc = MyPageViewController()
-        vc.viewModel = viewModel
-        return vc
-    }
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -109,6 +103,25 @@ final class MyPageViewController: NagazaBaseViewController {
         tableView.isScrollEnabled = false
         return tableView
     }()
+    
+    init(viewModel: MyPageViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setCoordinatorActions(with actions: any CoordinatorActions) {
+        viewModel.setCoordinatorActions(with: actions)
+    }
+//    static func create(with viewModel: MyPageViewModel) -> MyPageViewController {
+//        let vc = MyPageViewController()
+//        vc.viewModel = viewModel
+//        return vc
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

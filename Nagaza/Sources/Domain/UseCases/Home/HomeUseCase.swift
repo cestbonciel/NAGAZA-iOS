@@ -7,15 +7,15 @@
 //
 import RxSwift
 
-protocol HomeUseCaseInterface {
+protocol HomeUseCaseProtocol: AnyObject {
     func fetchCafesList() -> Single<CafesPage>
     func fetchRoomsList(cafeId: Int) -> Single<RoomsPage>
 }
 
-final class DefaultHomeUseCase: HomeUseCaseInterface {
-    private let repository: HomeRepositoryInterface
+final class DefaultHomeUseCase: HomeUseCaseProtocol {
+    private let repository: HomeRepositoryProtocol
     
-    init(roomsRepository: HomeRepositoryInterface) {
+    init(roomsRepository: HomeRepositoryProtocol) {
         self.repository = roomsRepository
     }
     

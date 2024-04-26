@@ -5,38 +5,45 @@
 //  Created by 전성훈 on 2023/10/20.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
 
-/// 화면 전환 등 액션, coordinator에서 직접 주입
-struct LoginViewModelActions {
-    let showTabBar: () -> Void
+// TODO: LoginViewModel Coordinator protocol
+protocol LoginCoordinatorActions: CoordinatorActions {
+    func pushTabBar()
 }
 
-protocol LoginViewModelInput {
-    func didTappedLogin()
-}
-
-protocol LoginViewModelOutput {
+final class LoginViewModel: NagazaViewModel {    
+    private weak var actions: LoginCoordinatorActions?
     
-}
-
-typealias LoginViewModelProtocol = LoginViewModelInput & LoginViewModelOutput
-
-final class LoginViewModel: LoginViewModelProtocol {
-    private let actions: LoginViewModelActions!
+    struct Input {
+        let didTappedLogin: Driver<Void>
+    }
     
-    // MARK: Output
+    struct Output {
+        let didTappedLogin: Driver<Void>
+    }
     
-    init(
-        actions: LoginViewModelActions
-    ) {
-        self.actions = actions
+    init() { }
+    
+    func setCoordinatorActions(with actions: CoordinatorActions) {
+        self.actions = actions as? LoginCoordinatorActions
+    }
+    
+    func transform(input: Input) -> Output {
+        let didTappedLogin = input.didTappedLogin
+            .map { [weak self] _ in
+                self?.pushTabBar()
+                
+                return
+            }
+            .asDriver()
+        
+        return Output(didTappedLogin: didTappedLogin)
+    }
+    
+    private func pushTabBar() {
+        actions?.pushTabBar()
     }
 }
 
-// MARK: Input
-extension LoginViewModel {
-    func didTappedLogin() {
-        actions?.showTabBar()
-    }
-}

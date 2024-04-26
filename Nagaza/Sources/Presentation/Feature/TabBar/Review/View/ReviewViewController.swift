@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class ReviewViewController: NagazaBaseViewController {
+final class ReviewViewController: NagazaViewController {
     
     private var viewModel: ReviewViewModel!
     
@@ -24,11 +24,21 @@ final class ReviewViewController: NagazaBaseViewController {
         return tableView
     }()
     
-    static func create(with viewModel: ReviewViewModel) -> ReviewViewController {
-        let vc = ReviewViewController()
-        vc.viewModel = viewModel
-        return vc
+    init(viewModel: ReviewViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    static func create(with viewModel: ReviewViewModel) -> ReviewViewController {
+//        let vc = ReviewViewController()
+//        vc.viewModel = viewModel
+//        return vc
+//    }
     
     override func makeUI() {
         // TODO: 분리할 base func 필요할듯

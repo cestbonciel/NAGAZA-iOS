@@ -1,8 +1,22 @@
 platform :ios, '15.0'
-# use_frameworks!
+use_frameworks!
 
-target 'Nagaza' do
+workspace 'Nagaza.xcworkspace'
+project 'Projects/App/App.xcodeproj'
+project 'Projects/Features/Map/Map.xcodeproj'
+
+target 'App' do
+  project 'Projects/App/App.xcodeproj'
+  
+  pod 'NMapsMap', '~> 3.18.0'
+  # pod 'NMapsMap'
+
+end
+
+target 'Map' do
+  project 'Projects/Features/Map/Map.xcodeproj'
 
   pod 'NMapsMap', '~> 3.18.0'
+  # pod 'NMapsMap'
 
 end

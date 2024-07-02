@@ -1,76 +1,106 @@
 import ProjectDescription
 
-/// Project helpers are functions that simplify the way you define your project.
-/// Share code to create targets, settings, dependencies,
-/// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
-/// See https://docs.tuist.io/guides/helpers/
 
-extension Project {
-    /// Helper function to create the Project for this ExampleApp
-    public static func app(name: String, platform: Platform, additionalTargets: [String]) -> Project {
-        var targets = makeAppTargets(name: name,
-                                     platform: platform,
-                                     dependencies: additionalTargets.map { TargetDependency.target(name: $0) })
-        targets += additionalTargets.flatMap({ makeFrameworkTargets(name: $0, platform: platform) })
-        return Project(name: name,
-                       organizationName: "tuist.io",
-                       targets: targets)
-    }
+private let rootPackagesName = "com.nagaza."
+private let basicDeployment: DeploymentTarget = .iOS(targetVersion: "15.0", devices: .iphone)
 
-    // MARK: - Private
+//private let projectSettings: Settings = .settings(
+//    base: [
+//        "OTHER_LDFLAGS": "-ObjC",
+//        "HEADER_SEARCH_PATHS": [
+//            "$(inherited)",
+//            "$(SRCROOT)/Tuist/Dependencies/SwiftPackageManager/.build/checkouts/gtm-session-fetcher/Sources/Core/Public"
+//        ]
+//    ]
+//)
 
-    /// Helper function to create a framework target and an associated unit test target
-    private static func makeFrameworkTargets(name: String, platform: Platform) -> [Target] {
-        let sources = Target(name: name,
-                platform: platform,
-                product: .framework,
-                bundleId: "io.tuist.\(name)",
-                infoPlist: .default,
-                sources: ["Targets/\(name)/Sources/**"],
-                resources: [],
-                dependencies: [])
-        let tests = Target(name: "\(name)Tests",
-                platform: platform,
-                product: .unitTests,
-                bundleId: "io.tuist.\(name)Tests",
-                infoPlist: .default,
-                sources: ["Targets/\(name)/Tests/**"],
-                resources: [],
-                dependencies: [.target(name: name)])
-        return [sources, tests]
-    }
+public extension Project {
 
-    /// Helper function to create the application target and the unit test target.
-    private static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
-        let platform: Platform = platform
-        let infoPlist: [String: InfoPlist.Value] = [
-            "CFBundleShortVersionString": "1.0",
-            "CFBundleVersion": "1",
-"UIMainStoryboardFile": "",
-            "UILaunchStoryboardName": "LaunchScreen"
-            ]
+    static func dynamicFramework(
+        name: String,
+        dependencies: [TargetDependency],
+    resources: ResourceFileElements = [.glob(pattern: .relativeToRoot("Projects/App/Resource/**"))],
+    infoPlist: InfoPlist = .default
+    ) -> Project {
 
-        let mainTarget = Target(
+        let target = Target(
             name: name,
-            platform: platform,
-            product: .app,
-            bundleId: "io.tuist.\(name)",
-            infoPlist: .extendingDefault(with: infoPlist),
-            sources: ["Targets/\(name)/Sources/**"],
-            resources: ["Targets/\(name)/Resources/**"],
+            platform: .iOS,
+            product: .framework,
+            bundleId: rootPackagesName + name,
+            deploymentTarget: basicDeployment,
+            infoPlist: infoPlist,
+            sources: "Source/**",
+            resources:  resources,
             dependencies: dependencies
+            //                settings: projectSettings
         )
-
-        let testTarget = Target(
-            name: "\(name)Tests",
-            platform: platform,
-            product: .unitTests,
-            bundleId: "io.tuist.\(name)Tests",
-            infoPlist: .default,
-            sources: ["Targets/\(name)/Tests/**"],
-            dependencies: [
-                .target(name: "\(name)")
-        ])
-        return [mainTarget, testTarget]
+        
+        return Project(
+            name: name,
+            //            settings: projectSettings,
+            targets: [target]
+        )
     }
+    
+    static func library(
+        name: String,
+        dependencies: [TargetDependency],
+        product: Product = .dynamicLibrary
+    ) -> Project {
+        let target = Target(
+            name: name,
+            platform: .iOS,
+            product: product,
+            bundleId: rootPackagesName + name,
+            deploymentTarget: basicDeployment,
+            infoPlist: .default,
+            sources: ["Source/"],
+            resources:  [.glob(pattern: .relativeToRoot("Projects/App/Resource/**"))],
+            dependencies: dependencies
+            //             settings: projectSettings
+        )
+        
+        return Project(
+            name: name,
+            //         settings: projectSettings,
+            targets: [target]
+        )
+    }
+    
+  static func designSystem(
+    name: String,
+    dependencies: [TargetDependency],
+//    resources: ResourceFileElements = [.glob(pattern: .relativeToRoot("Projects/App/Resources/**"))],
+    infoPlist: InfoPlist
+  ) -> Project {
+
+    let target = Target(
+      name: name,
+      platform: .iOS,
+      product: .framework,
+      bundleId: rootPackagesName + name,
+      deploymentTarget: basicDeployment,
+      infoPlist: infoPlist,
+      sources: "Source/**",
+      resources: "Resource/**",
+      dependencies: dependencies
+      //        settings: projectSettings
+    )
+
+    return Project(
+      name: name,
+      //      settings: projectSettings,
+      targets: [target],
+      resourceSynthesizers: [
+        .custom(
+          name: "Lottie",
+          parser: .json,
+          extensions: ["lottie"]
+        ),
+        .assets(),
+        .fonts(),
+      ]
+    )
+  }
 }

@@ -23,7 +23,7 @@ final class SearchTableViewCell: NagazaTableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.ngaSubTitle1R
+        label.font = .pretendard(size: 16, weight: .regular)
         label.textAlignment = .center
         label.textColor = DSKitAsset.Colors.black1.color
         return label
@@ -31,7 +31,7 @@ final class SearchTableViewCell: NagazaTableViewCell {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.ngaP1R
+        label.font = .pretendard(size: 14, weight: .regular)
         label.textAlignment = .center
         label.textColor = DSKitAsset.Colors.gray3.color
         return label
@@ -53,7 +53,7 @@ final class SearchTableViewCell: NagazaTableViewCell {
     func bind(item: Place, keyword: String?) {
         titleLabel.attributedText = item.placeName.toAttributedString(
             with: keyword,
-            font: UIFont.ngaSubTitle1B,
+            font: .pretendard(size: 16, weight: .bold),
             color: DSKitAsset.Colors.mainOrange.color
         )
         subtitleLabel.text = item.addressName

@@ -49,7 +49,7 @@ final public class RecommendThemeView: NagazaView {
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .ngaH3Sb
+        label.font = .pretendard(size: 24, weight: .semibold)
         label.textColor = .black
         label.text = "테스트님"
         
@@ -59,7 +59,7 @@ final public class RecommendThemeView: NagazaView {
     private lazy var recommendLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .ngaSubTitle1R
+        label.font = .pretendard(size: 16, weight: .regular)
         label.textColor = .black
         label.text = "오늘의 추천테마를 즐겨보세요!"
         

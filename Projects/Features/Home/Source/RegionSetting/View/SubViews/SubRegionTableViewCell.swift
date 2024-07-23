@@ -18,7 +18,7 @@ final class SubRegionTableViewCell: UITableViewCell {
         
         lbl.textAlignment = .center
         lbl.numberOfLines = 1
-        lbl.font = .ngaSubTitle1Sb
+        lbl.font = .pretendard(size: 16, weight: .semibold)
         
         return lbl
     }()
@@ -29,7 +29,7 @@ final class SubRegionTableViewCell: UITableViewCell {
         
         lbl.textAlignment = .center
         lbl.numberOfLines = 1
-        lbl.font = .ngaSubTitle1Sb
+        lbl.font = .pretendard(size: 16, weight: .semibold)
         
         return lbl
     }()

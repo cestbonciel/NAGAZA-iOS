@@ -163,7 +163,7 @@ final class HomeViewController: NagazaViewController {
         DSKitAsset.Colors.gray3.color
         
         navBarAppearance.titleTextAttributes = [
-            .font: UIFont.ngaH3M,
+            .font: UIFont.pretendard(size: 24, weight: .medium),
             .foregroundColor: titleColor
         ]
         

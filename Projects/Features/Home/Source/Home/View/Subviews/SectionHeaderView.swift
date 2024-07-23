@@ -11,7 +11,7 @@ final class SectionHeaderView: UICollectionReusableView {
     lazy var themeLabel: UILabel = {
         let label = UILabel()
 
-        label.font = .ngaSubTitle2M
+        label.font = .pretendard(size: 15, weight: .medium)
         // TODO: 변경 예정
         label.textColor = .black
         return label

@@ -13,7 +13,7 @@ final class SearchHeaderView: UICollectionReusableView {
     lazy var recentTextLabel: UILabel = {
         let label = UILabel()
         label.text = "최근 검색"
-        label.font = UIFont.ngaSubTitle2B
+        label.font = .pretendard(size: 15, weight: .bold)
         label.textAlignment = .center
         label.textColor = DSKitAsset.Colors.black.color
         return label
@@ -21,10 +21,17 @@ final class SearchHeaderView: UICollectionReusableView {
     
     lazy var removaAllButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(NSAttributedString(string: "모두 지우기", attributes: [
-            NSAttributedString.Key.font: UIFont.ngaSubTitle2B
-            
-        ]), for: .normal)
+        button.setAttributedTitle(
+            NSAttributedString(
+                string: "모두 지우기",
+                attributes: [
+                    NSAttributedString.Key.font:
+                        UIFont.pretendard(size: 15, weight: .bold
+                                         )
+                ]
+            ),
+            for: .normal
+        )
         button.setTitleColor(DSKitAsset.Colors.gray3.color, for: .normal)
         return button
     }()

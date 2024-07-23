@@ -47,7 +47,7 @@ final class ThemeCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .ngaP1Sb
+        label.font = .pretendard(size: 14, weight: .semibold)
         label.textColor = .black
         
         return label
@@ -56,7 +56,7 @@ final class ThemeCell: UICollectionViewCell {
     private lazy var branchLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .ngaCaption1M
+        label.font = .pretendard(size: 11, weight: .medium)
         label.textColor = .gray
         
         return label
@@ -72,7 +72,7 @@ final class ThemeCell: UICollectionViewCell {
     private lazy var ratedLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .ngaCaption1M
+        label.font = .pretendard(size: 11, weight: .medium)
         label.textColor = .gray
         
         return label

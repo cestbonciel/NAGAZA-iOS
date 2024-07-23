@@ -11,7 +11,7 @@ public final class MapSearchView: NagazaView {
     public lazy var textLabel: UILabel = {
         let label = UILabel()
         label.text = "검색어를 입력하세요"
-        label.font = UIFont.ngaSubTitle2R
+        label.font = UIFont.pretendard(size: 15, weight: .regular)
         label.textAlignment = .left
         label.textColor = DSKitAsset.Colors.gray4.color
         return label

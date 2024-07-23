@@ -61,7 +61,7 @@ open class NagazaViewController: UIViewController, ViewControllable {
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [
-            .font: UIFont.ngaH3M,
+            .font: UIFont.pretendard(size: 24, weight: .regular),
             .foregroundColor: DSKitAsset.Colors.black.color
         ]
         navBarAppearance.shadowColor = nil

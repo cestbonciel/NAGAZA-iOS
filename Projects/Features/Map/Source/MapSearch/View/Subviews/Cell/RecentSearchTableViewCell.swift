@@ -15,7 +15,7 @@ final class RecentSearchTableViewCell: NagazaTableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.ngaSubTitle1R
+        label.font = .pretendard(size: 16, weight: .regular)
         label.textAlignment = .center
         label.textColor = DSKitAsset.Colors.black1.color
         return label

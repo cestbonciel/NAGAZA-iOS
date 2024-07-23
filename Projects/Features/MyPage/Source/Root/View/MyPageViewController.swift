@@ -53,9 +53,10 @@ final class MyPageViewController: NagazaViewController {
                                                        trailing: 12)
         config.attributedTitle = AttributedString(
             "내 정보 보기",
-            attributes: AttributeContainer([NSAttributedString.Key.font: UIFont.ngaP2Sb,
-                                            NSAttributedString.Key.foregroundColor: DSKitAsset.Colors.gray5.color
-                                           ])
+            attributes: AttributeContainer(
+                [NSAttributedString.Key.font: UIFont.pretendard(size: 12, weight: .semibold),
+                 NSAttributedString.Key.foregroundColor: DSKitAsset.Colors.gray5.color]
+            )
         )
         button.configuration = config
         

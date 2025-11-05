@@ -7,7 +7,7 @@
 
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import NAGAZAIOS
 
 let project = Project.dynamicFramework(
     name: Feature.Network.rawValue,

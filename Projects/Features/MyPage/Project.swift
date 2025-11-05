@@ -7,7 +7,7 @@
 
 import ProjectDescription
 import ProjectDescriptionHelpers
-import MyPlugin
+import NAGAZAIOS
 
 let project = Project(
     name: Feature.MyPage.rawValue,

@@ -1,8 +1,11 @@
-import ProjectDescription
+@preconcurrency import ProjectDescription
+import NAGAZAIOS
 
+public typealias Deployment = ProjectDescription.DeploymentTargets
 
 private let rootPackagesName = "com.nagaza."
-private let basicDeployment: DeploymentTarget = .iOS(targetVersion: "15.0", devices: .iphone)
+private let basicDeployment: Deployment = .iOS("15.0")
+//private let basicDeployment: DeploymentTarget = .iOS(targetVersion: "15.0", devices: .iphone)
 
 //private let projectSettings: Settings = .settings(
 //    base: [
@@ -23,12 +26,12 @@ public extension Project {
     infoPlist: InfoPlist = .default
     ) -> Project {
 
-        let target = Target(
+        let target = Target.target(
             name: name,
-            platform: .iOS,
+            destinations: .iOS,
             product: .framework,
             bundleId: rootPackagesName + name,
-            deploymentTarget: basicDeployment,
+            deploymentTargets: basicDeployment,
             infoPlist: infoPlist,
             sources: "Source/**",
             resources:  resources,
@@ -48,12 +51,12 @@ public extension Project {
         dependencies: [TargetDependency],
         product: Product = .dynamicLibrary
     ) -> Project {
-        let target = Target(
+        let target = Target.target(
             name: name,
-            platform: .iOS,
+            destinations: .iOS,
             product: product,
             bundleId: rootPackagesName + name,
-            deploymentTarget: basicDeployment,
+            deploymentTargets: basicDeployment,
             infoPlist: .default,
             sources: ["Source/"],
             resources:  [.glob(pattern: .relativeToRoot("Projects/App/Resource/**"))],
@@ -75,12 +78,12 @@ public extension Project {
     infoPlist: InfoPlist
   ) -> Project {
 
-    let target = Target(
+    let target = Target.target(
       name: name,
-      platform: .iOS,
+      destinations: .iOS,
       product: .framework,
       bundleId: rootPackagesName + name,
-      deploymentTarget: basicDeployment,
+      deploymentTargets: basicDeployment,
       infoPlist: infoPlist,
       sources: "Source/**",
       resources: "Resource/**",
